@@ -1,0 +1,8 @@
+{
+  "message": "User Saved Successfully",
+  "user": {
+    "_id": "6a0f47cc37d5f051ef7b96b1",
+    "username": "neil",
+    "email": "neil@gmail.com"
+  }
+}

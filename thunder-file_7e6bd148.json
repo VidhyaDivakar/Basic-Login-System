@@ -1,0 +1,9 @@
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBmNDc2MjM3ZDVmMDUxZWY3Yjk2YWYiLCJ1c2VybmFtZSI6ImpvaG4iLCJpYXQiOjE3NzkzODYyMzUsImV4cCI6MTc3OTM4OTgzNX0.wwdivr82tpmm8rSmwI6iw1e3uNjCuvs1jE_YNQrDFE4",
+  "user": {
+    "_id": "6a0f476237d5f051ef7b96af",
+    "username": "john",
+    "email": "john@gmail.com"
+  }
+}

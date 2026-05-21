@@ -10,7 +10,8 @@ require("dotenv").config();
 const connectDB = require("./db/connectDB");
 connectDB();
 
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Book = require("./models/users");
 const User = require("./models/users");
 const PORT = 3004;
@@ -61,6 +62,63 @@ router.post("/register", async (req, res) => {
         });
     }
 });
+
+// route/endpoint login
+
+app.post("/api/users/login", async (req, res) => {
+
+    try {
+
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                message: "Incorrect email or password"
+            });
+        }
+
+        //Comparing password with hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Incorrect email or password"
+            });
+        }
+
+        // Creating JWT payload
+        const payload = {
+            _id: user._id,
+            username: user.username
+        };
+
+        // Sign token
+        const token = jwt.sign(payload, process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        // Sending response
+        res.status(200).json({
+            message: "Login successful",
+            token,
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Server Error"
+        });
+    }
+});
+
 //connects router to the Express app AND sets a base URL ("/api/users" (prefix)) for all routes inside that router.
 app.use("/api/users", router)
 //port
