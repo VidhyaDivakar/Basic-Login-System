@@ -2,6 +2,7 @@ const dns = require("dns");
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const express = require("express");
 const app = express();
+const router = express.Router();
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({});
@@ -20,9 +21,9 @@ app.use(express.json());
 
 
 
-//routes
+//routes enpoints
 
-router.post("/api/users/register", async (req, res) => {
+router.post("/register", async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
@@ -51,13 +52,17 @@ router.post("/api/users/register", async (req, res) => {
             },
         });
     } catch (error) {
+        console.log("Full ERROR:");
         console.log(error);
         res.status(500).json({
-            message: "Server Error"
+            message: "Server Error",
+            error: error.message
+
         });
     }
 });
-
+//connects router to the Express app AND sets a base URL ("/api/users" (prefix)) for all routes inside that router.
+app.use("/api/users", router)
 //port
 
 app.listen(PORT, () => {

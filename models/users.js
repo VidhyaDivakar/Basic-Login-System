@@ -24,11 +24,11 @@ const userSchema = new mongoose.Schema({
 // use a pre('save') hook, which tells Mongoose to run our function before any User document is saved.
 userSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("password")) {
+        const bcrypt = require("bcrypt");
         const saltRounds = 10;
         this.password = await bcrypt.hash(this.password, saltRounds);
     }
 
-    next();
 });
 
 const User = mongoose.model("User", userSchema);
